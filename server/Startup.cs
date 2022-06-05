@@ -1,12 +1,17 @@
-namespace Server {
-    public class Startup {
-        public IConfiguration Configuration {get; }
-        public Startup(IConfiguration configuration) {
+namespace Server
+{
+    public class Startup
+    {
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
+        {
             Configuration = configuration;
+            DotNetEnv.Env.Load();
         }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   
+            String val = DotNetEnv.Env.GetString("MYSQL_HOST");
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -14,7 +19,7 @@ namespace Server {
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) 
+            if (env.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

@@ -8,7 +8,6 @@
 
 [Server structure](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio-code)
 
-
 ## Running the project
 
 Building
@@ -28,3 +27,7 @@ Hot reload
 ```bash
 dotnet watch
 ```
+
+## Testing
+
+[guide](https://timdeschryver.dev/blog/how-to-test-your-csharp-web-api#test-specific-appsettings)

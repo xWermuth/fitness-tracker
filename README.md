@@ -13,7 +13,7 @@
 Building
 
 ```bash
-dotnet build
+gradle build
 ```
 
 Running
@@ -25,7 +25,7 @@ dotnet run
 Hot reload
 
 ```bash
-dotnet watch
+gradle build --continuous
 ```
 
 ## Testing

@@ -4,30 +4,26 @@
 
 ## Setup
 
-[Mysql setup](https://github.com/mahedee/Articles/blob/master/dot-net-core/HowToCreateWebAPIinASP.NETCOrewitMySQL.md)
-
 [Server structure](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio-code)
 
 ## Running the project
 
-Building
+### Run project
 
 ```bash
-gradle build
+npx ts-node index.ts
 ```
 
-Running
+## Prisma
+
+### Update schema.prisma
 
 ```bash
-dotnet run
+npm run schema
 ```
 
-Hot reload
+### Migrations
 
 ```bash
-gradle build --continuous
+npm run migrate name_of_migration
 ```
-
-## Testing
-
-[guide](https://timdeschryver.dev/blog/how-to-test-your-csharp-web-api#test-specific-appsettings)

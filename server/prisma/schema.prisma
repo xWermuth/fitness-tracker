@@ -43,6 +43,7 @@ model User {
   email     String    @unique
   name      String    @db.VarChar(255)
   hash      String // This is the password hashed
+  role      String    @default("user")
   hashedRt  String?
   excercise Workout[]
   profile   Profile?

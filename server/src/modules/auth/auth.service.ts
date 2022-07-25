@@ -7,6 +7,7 @@ import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtPayload } from 'types/jwt.types';
 import { AuthDto } from 'src/dtos/auth.dto';
+import { Role } from 'src/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -101,6 +102,7 @@ export class AuthService {
     const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
+      role: Role.User,
     };
 
     const [at, rt] = await Promise.all([

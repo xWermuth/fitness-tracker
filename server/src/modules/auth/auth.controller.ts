@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/decorators';
 import { Roles } from 'src/decorators/roles.decorator';
 import { AuthDto } from 'src/dtos/auth.dto';
@@ -21,8 +21,8 @@ export class AuthController {
   @Public()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  signinLocal(@Body() dto: AuthDto): Promise<Tokens> {
-    return this.authService.signinLocal(dto);
+  async signinLocal(@Body() dto: AuthDto): Promise<Tokens> {
+    return await this.authService.signinLocal(dto);
   }
 
   @Post('logout')
@@ -33,7 +33,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(RtGuard)
-  @Roles(Role.User)
+  @Roles(Role.Admin)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   refreshTokens(@GetCurrentUserId() userId: number, @GetCurrentUser('refreshToken') refreshToken: string): Promise<Tokens> {

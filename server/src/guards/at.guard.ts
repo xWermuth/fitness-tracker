@@ -12,7 +12,9 @@ export class AtGuard extends AuthGuard('jwt') {
     const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [context.getHandler(), context.getClass()]);
 
     // Access control
-    if (isPublic) return true;
+    if (isPublic) {
+      return true;
+    }
 
     // Checks if the token is valid
     return super.canActivate(context);

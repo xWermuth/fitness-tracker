@@ -1,8 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/decorators';
-import { Roles } from 'src/decorators/roles.decorator';
 import { AuthDto } from 'src/dtos/auth.dto';
-import { Role } from 'src/enums/role.enum';
 import { RtGuard } from 'src/guards';
 import { Tokens } from 'types/token.types';
 import { AuthService } from './auth.service';
@@ -33,7 +31,6 @@ export class AuthController {
 
   @Public()
   @UseGuards(RtGuard)
-  @Roles(Role.Admin)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   refreshTokens(@GetCurrentUserId() userId: number, @GetCurrentUser('refreshToken') refreshToken: string): Promise<Tokens> {

@@ -13,7 +13,7 @@ import { Role } from 'src/enums/role.enum';
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService, private config: ConfigService) {}
 
-  async signupLocal(dto: AuthDto): Promise<Tokens> {
+  async signup(dto: AuthDto): Promise<Tokens> {
     const { password, ...rest } = dto;
     const hash = await argon.hash(password);
 
@@ -36,7 +36,7 @@ export class AuthService {
     return tokens;
   }
 
-  async signinLocal(dto: AuthDto): Promise<Tokens> {
+  async signin(dto: AuthDto): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/decorators';
 import { Roles } from 'src/decorators/roles.decorator';
 import { AuthDto } from 'src/dtos/auth.dto';
@@ -14,15 +14,15 @@ export class AuthController {
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
-  async signupLocal(@Body() dto: AuthDto): Promise<Tokens> {
-    return await this.authService.signupLocal(dto);
+  async signup(@Body() dto: AuthDto): Promise<Tokens> {
+    return await this.authService.signup(dto);
   }
 
   @Public()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  async signinLocal(@Body() dto: AuthDto): Promise<Tokens> {
-    return await this.authService.signinLocal(dto);
+  async signin(@Body() dto: AuthDto): Promise<Tokens> {
+    return await this.authService.signin(dto);
   }
 
   @Post('logout')

@@ -75,6 +75,8 @@ export class AuthService {
         id: userId,
       },
     });
+    
+
     if (!user || !user.hashedRt) throw new ForbiddenException('Access Denied');
 
     const rtMatches = await verify(user.hashedRt, rt);

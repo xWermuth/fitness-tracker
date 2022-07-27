@@ -16,7 +16,7 @@ export class AtGuard extends AuthGuard('jwt') {
       return true;
     }
 
-    // Checks if the token is valid
+    // Checks if the token is valid    
     return super.canActivate(context);
   }
 }

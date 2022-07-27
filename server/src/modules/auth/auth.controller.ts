@@ -1,9 +1,10 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/decorators';
 import { AuthDto } from 'src/dtos/auth.dto';
 import { RtGuard } from 'src/guards';
-import { Tokens } from 'src/types/token.types';
 import { AuthService } from './auth.service';
+import { Response } from 'express';
+import { AUTH_CONSTANTS } from './constants.auth';
 
 @Controller('auth')
 export class AuthController {
@@ -11,29 +12,36 @@ export class AuthController {
 
   @Public()
   @Post('signup')
-  @HttpCode(HttpStatus.CREATED)
-  async signup(@Body() dto: AuthDto): Promise<Tokens> {
-    return await this.authService.signup(dto);
+  @HttpCode(HttpStatus.OK)
+  async signup(@Body() dto: AuthDto, @Res() res: Response) {
+    const tokens = await this.authService.signup(dto);
+    res.cookie(AUTH_CONSTANTS.COOKIE_KEY, tokens, { httpOnly: true }).status(HttpStatus.OK).send(tokens);
   }
 
   @Public()
   @Post('signin')
-  @HttpCode(HttpStatus.OK)
-  async signin(@Body() dto: AuthDto): Promise<Tokens> {
-    return await this.authService.signin(dto);
+  async signin(@Body() dto: AuthDto, @Res() res: Response) {
+    const tokens = await this.authService.signin(dto);
+    res.cookie(AUTH_CONSTANTS.COOKIE_KEY, tokens, { httpOnly: true }).status(HttpStatus.OK).send(tokens);
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@GetCurrentUserId() userId: number): Promise<boolean> {
+  logout(@GetCurrentUserId() userId: number, @Res() res: Response): Promise<boolean> {
+    res.clearCookie(AUTH_CONSTANTS.COOKIE_KEY);
     return this.authService.logout(userId);
   }
 
   @Public()
   @UseGuards(RtGuard)
   @Post('refresh')
-  @HttpCode(HttpStatus.OK)
-  refreshTokens(@GetCurrentUserId() userId: number, @GetCurrentUser('refreshToken') refreshToken: string): Promise<Tokens> {
-    return this.authService.refreshTokens(userId, refreshToken);
+  async refreshTokens(@GetCurrentUserId() userId: number, @GetCurrentUser('refreshToken') refreshToken: string, @Res() res: Response) {    
+    const tokens = await this.authService.refreshTokens(userId, refreshToken);
+    res.cookie(AUTH_CONSTANTS.COOKIE_KEY, tokens, { httpOnly: true }).status(HttpStatus.OK).send(tokens);
+  }
+
+  @Get('temp')
+  temp(@Req() req: any) {
+    return 'hello world';
   }
 }

@@ -11,6 +11,7 @@ const user: AuthDto = {
   email: 'test@gmail.com',
   name: 'test',
   password: 'super-secret-password',
+  confirmPassword: 'super-secret-password',
 };
 
 describe('Auth Flow', () => {
@@ -41,10 +42,27 @@ describe('Auth Flow', () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       expect(tokens.access_token).toBeTruthy();
       expect(tokens.refresh_token).toBeTruthy();
+    });
+
+    it('should throw errors if passwords do not match', async () => {
+      let tokens: Tokens | undefined;
+      try {
+        tokens = await authService.signup({
+          email: 'test@gmail.com',
+          password: user.password,
+          name: 'test',
+          confirmPassword: 'mypassword',
+        });
+      } catch (error) {
+        expect(error.status).toBe(403);
+      }
+
+      expect(tokens).toBeUndefined();
     });
 
     it('should throw on duplicate user signup', async () => {
@@ -54,6 +72,7 @@ describe('Auth Flow', () => {
           email: user.email,
           password: user.password,
           name: user.name,
+          confirmPassword: user.confirmPassword,
         });
       } catch (error) {
         expect(error.status).toBe(403);
@@ -74,6 +93,7 @@ describe('Auth Flow', () => {
           email: user.email,
           password: user.password,
           name: user.name,
+          confirmPassword: user.confirmPassword,
         });
       } catch (error) {
         expect(error.status).toBe(403);
@@ -87,12 +107,14 @@ describe('Auth Flow', () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       const tokens = await authService.signin({
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       expect(tokens.access_token).toBeTruthy();
@@ -106,6 +128,7 @@ describe('Auth Flow', () => {
           email: user.email,
           password: user.password + 'a',
           name: user.name,
+          confirmPassword: user.confirmPassword,
         });
       } catch (error) {
         expect(error.status).toBe(403);
@@ -130,6 +153,7 @@ describe('Auth Flow', () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       let userFromDb: User | null;
@@ -176,6 +200,7 @@ describe('Auth Flow', () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       const rt = _tokens.refresh_token;
@@ -206,6 +231,7 @@ describe('Auth Flow', () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       const rt = _tokens.refresh_token;
@@ -229,6 +255,7 @@ describe('Auth Flow', () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        confirmPassword: user.confirmPassword,
       });
 
       const rt = _tokens.refresh_token;

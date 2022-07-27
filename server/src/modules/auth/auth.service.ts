@@ -14,7 +14,12 @@ export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService, private config: ConfigService) {}
 
   async signup(dto: AuthDto): Promise<Tokens> {
-    const { password, ...rest } = dto;
+    const { password, confirmPassword, ...rest } = dto;
+
+    if (password !== confirmPassword) {
+      throw new ForbiddenException('Passwords do not match');
+    }
+
     const hash = await hashFunc(password);
 
     const user = await this.prisma.user
@@ -75,7 +80,6 @@ export class AuthService {
         id: userId,
       },
     });
-    
 
     if (!user || !user.hashedRt) throw new ForbiddenException('Access Denied');
 

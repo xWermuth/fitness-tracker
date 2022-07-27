@@ -14,6 +14,8 @@ export class AuthController {
   @Post('signup')
   @HttpCode(HttpStatus.OK)
   async signup(@Body() dto: AuthDto, @Res() res: Response) {
+    console.log({ dto });
+
     const tokens = await this.authService.signup(dto);
     res.cookie(AUTH_CONSTANTS.COOKIE_KEY, tokens, { httpOnly: true }).status(HttpStatus.OK).send(tokens);
   }
@@ -35,7 +37,11 @@ export class AuthController {
   @Public()
   @UseGuards(RtGuard)
   @Post('refresh')
-  async refreshTokens(@GetCurrentUserId() userId: number, @GetCurrentUser('refreshToken') refreshToken: string, @Res() res: Response) {    
+  async refreshTokens(
+    @GetCurrentUserId() userId: number,
+    @GetCurrentUser('refreshToken') refreshToken: string,
+    @Res() res: Response,
+  ) {
     const tokens = await this.authService.refreshTokens(userId, refreshToken);
     res.cookie(AUTH_CONSTANTS.COOKIE_KEY, tokens, { httpOnly: true }).status(HttpStatus.OK).send(tokens);
   }

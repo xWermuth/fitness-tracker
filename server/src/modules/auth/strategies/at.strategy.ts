@@ -7,8 +7,6 @@ import { JwtPayload } from 'src/types/jwt.types';
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(config: ConfigService) {
-    console.log('HERE: ', config.get<string>('ACCESS_TOKEN_SECRET'));
-
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: config.get<string>('ACCESS_TOKEN_SECRET'),

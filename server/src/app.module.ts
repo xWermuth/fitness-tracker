@@ -10,12 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RolesGuard } from './guards/roles.guard';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: `./.env.${process.env.NODE_ENV}` }),
-    AuthModule,
-    UserModule,
-    PrismaModule,
-  ],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UserModule, PrismaModule],
   controllers: [AppController],
   providers: [
     AppService,

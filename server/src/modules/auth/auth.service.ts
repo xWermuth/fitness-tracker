@@ -2,10 +2,10 @@ import { Injectable, ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../db/prisma.service';
 import { ConfigService } from '@nestjs/config';
-import { Tokens } from 'types/token.types';
-import * as argon from 'argon2';
+import { Tokens } from 'src/types/token.types';
+import { hash as hashFunc, verify } from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { JwtPayload } from 'types/jwt.types';
+import { JwtPayload } from 'src/types/jwt.types';
 import { AuthDto } from 'src/dtos/auth.dto';
 import { Role } from 'src/enums/role.enum';
 
@@ -15,7 +15,7 @@ export class AuthService {
 
   async signup(dto: AuthDto): Promise<Tokens> {
     const { password, ...rest } = dto;
-    const hash = await argon.hash(password);
+    const hash = await hashFunc(password);
 
     const user = await this.prisma.user
       .create({
@@ -45,7 +45,7 @@ export class AuthService {
 
     if (!user) throw new ForbiddenException('Access Denied');
 
-    const passwordMatches = await argon.verify(user.hash, dto.password);
+    const passwordMatches = await verify(user.hash, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
@@ -77,7 +77,7 @@ export class AuthService {
     });
     if (!user || !user.hashedRt) throw new ForbiddenException('Access Denied');
 
-    const rtMatches = await argon.verify(user.hashedRt, rt);
+    const rtMatches = await verify(user.hashedRt, rt);
     if (!rtMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
@@ -87,7 +87,7 @@ export class AuthService {
   }
 
   async updateRtHash(userId: number, rt: string): Promise<void> {
-    const hash = await argon.hash(rt);
+    const hash = await hashFunc(rt);
     await this.prisma.user.update({
       where: {
         id: userId,

@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/decorators';
 import { AuthDto } from 'src/dtos/auth.dto';
 import { RtGuard } from 'src/guards';
-import { Tokens } from 'types/token.types';
+import { Tokens } from 'src/types/token.types';
 import { AuthService } from './auth.service';
 
 @Controller('auth')

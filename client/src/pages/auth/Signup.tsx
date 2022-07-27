@@ -4,13 +4,11 @@ import AuthHeader from './components/AuthHeader';
 import AuthInput from './components/AuthInput';
 import FormAction from './components/FormAction';
 
-interface SignupProps {}
-
 const fields = signupFields;
 let fieldsState: Record<string, string> = {};
 fields.forEach((field) => (fieldsState[field.id] = ''));
 
-const Signup: React.FC<SignupProps> = ({}) => {
+const Signup: React.FC = () => {
   const [signupState, setSignupState] = useState(fieldsState);
 
   const handleChange = useCallback(
@@ -27,7 +25,7 @@ const Signup: React.FC<SignupProps> = ({}) => {
   const createAccount = () => {};
 
   return (
-    <div className="max-w-md h-full  mx-auto">
+    <div className="max-w-md h-full mx-auto py-20">
       <AuthHeader heading="Login to your account" paragraph="Already have an account? " linkName="Login" linkUrl="/auth/login" />
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

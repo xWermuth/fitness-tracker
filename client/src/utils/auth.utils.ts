@@ -6,11 +6,11 @@ const confirmPasswordLabel = 'confirmPassword';
 export interface LoginBody {
   [emailLabel]: string;
   [passwordLabel]: string;
-  [usernameLabel]: string;
 }
 
 export interface SignupBody extends LoginBody {
   [confirmPasswordLabel]: string;
+  [usernameLabel]: string;
 }
 
 const loginFields = [

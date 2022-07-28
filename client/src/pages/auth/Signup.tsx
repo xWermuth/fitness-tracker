@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { signup } from '../../api/auth';
-import { LoginBody, signupFields } from '../../utils/auth.utils';
+import ErrorAlert from '../../components/alert/ErrorAlert';
+import { LoginBody, SignupBody, signupFields } from '../../utils/auth.utils';
 import AuthHeader from './components/AuthHeader';
 import AuthInput from './components/AuthInput';
 import FormAction from './components/FormAction';
@@ -8,19 +9,20 @@ import FormAction from './components/FormAction';
 const fields = signupFields;
 
 const Signup: React.FC = () => {
-  const [signupState, setSignupState] = useState<LoginBody>(() =>
-    fields.reduce<LoginBody>((acc, field) => ({ ...acc, [field.id]: '' }), {} as LoginBody),
+  const [err, setError] = useState('');
+  const [signupState, setSignupState] = useState<SignupBody>(() =>
+    fields.reduce<SignupBody>((acc, field) => ({ ...acc, [field.id]: '' }), {} as SignupBody),
   );
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setSignupState((prevState) => ({ ...prevState, [e.target.id]: e.target.value })),
-    [],
-  );
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupState((prevState) => ({ ...prevState, [e.target.id]: e.target.value }));
+    setError('');
+  }, []);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      signup(signupState);
+      signup(signupState).catch((err) => setError(err.response.data.message));
     },
     [signupState],
   );
@@ -30,7 +32,7 @@ const Signup: React.FC = () => {
       <AuthHeader heading="Login to your account" paragraph="Already have an account? " linkName="Login" linkUrl="/auth/login" />
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-        <div className="">
+        <div className="relative">
           {fields.map((field) => (
             <AuthInput
               key={field.id}
@@ -48,6 +50,7 @@ const Signup: React.FC = () => {
           <FormAction handleSubmit={handleSubmit} text="Signup" />
         </div>
       </form>
+      {err && <ErrorAlert msg={err} className="w-full mt-5" />}
     </div>
   );
 };

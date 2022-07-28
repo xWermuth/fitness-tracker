@@ -1,30 +1,34 @@
 import React, { useCallback, useState } from 'react';
-import { loginFields } from '../../utils/auth.utils';
+import { signin } from '../../api/auth';
+import ErrorAlert from '../../components/alert/ErrorAlert';
+import { LoginBody, loginFields } from '../../utils/auth.utils';
 import AuthHeader from './components/AuthHeader';
 import AuthInput from './components/AuthInput';
 import FormAction from './components/FormAction';
 import FormExtra from './components/FormExtra';
 
-interface LoginProps {}
-
 const fields = loginFields;
-let fieldsState: Record<string, string> = {};
-fields.forEach((field) => (fieldsState[field.id] = ''));
 
-const Login: React.FC<LoginProps> = () => {
-  const [loginState, setLoginState] = useState(fieldsState);
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setLoginState({ ...loginState, [e.target.id]: e.target.value }),
-    [],
+const Login: React.FC = () => {
+  const [err, setErr] = useState('');
+  const [loginState, setLoginState] = useState<LoginBody>(() =>
+    fields.reduce<LoginBody>((acc, field) => ({ ...acc, [field.id]: '' }), {} as LoginBody),
   );
 
-  const handleSubmit = useCallback((e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    authenticateUser();
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setErr('');
+    setLoginState((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   }, []);
 
-  const authenticateUser = () => {};
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      signin(loginState)
+        .then(() => {})
+        .catch((err) => setErr(err.response.data.message));
+    },
+    [loginState],
+  );
 
   return (
     <div className="py-20 mx-auto max-w-md">
@@ -41,7 +45,7 @@ const Login: React.FC<LoginProps> = () => {
             <AuthInput
               key={field.id}
               handleChange={handleChange}
-              value={loginState[field.id]}
+              value={loginState[field.id as keyof LoginBody]}
               labelText={field.labelText}
               labelFor={field.labelFor}
               id={field.id}
@@ -55,6 +59,7 @@ const Login: React.FC<LoginProps> = () => {
 
         <FormExtra />
         <FormAction handleSubmit={handleSubmit} text="Login" />
+        {err && <ErrorAlert msg={err} className="w-full" />}
       </form>
     </div>
   );

@@ -5,10 +5,10 @@ import { LoginBody } from '../utils/auth.utils';
 export type SigninResponse = boolean;
 export type SignupResponse = boolean;
 
-export async function signup(body: LoginBody) {
+export async function signup(body: SignupBody) {
   return (await axios.post<SignupResponse>('/auth/signup', body)).data;
 }
 
-export async function signin(body: SignupBody) {
+export async function signin(body: LoginBody) {
   return (await axios.post<SigninResponse>('/auth/signin', body)).data;
 }

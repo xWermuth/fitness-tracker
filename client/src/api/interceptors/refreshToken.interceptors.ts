@@ -12,7 +12,13 @@ export function interceptRefreshToken() {
         if (err.response.status === 401 && !originalConfig._retry) {
           originalConfig._retry = true;
           try {
-            await axios.post('/auth/refresh', {});
+            const res = await axios.post('/auth/refresh', {});
+
+            // Redirect the user to signin as the refresh token has expired or is invalidated
+            if (res.status === 401) {
+              return Promise.reject(err);
+            }
+
             return axios(originalConfig);
           } catch (_error) {
             return Promise.reject(_error);

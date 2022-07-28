@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signin } from '../../api/auth';
 import ErrorAlert from '../../components/alert/ErrorAlert';
 import { LoginBody, loginFields } from '../../utils/auth.utils';
@@ -10,7 +11,9 @@ import FormExtra from './components/FormExtra';
 const fields = loginFields;
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [err, setErr] = useState('');
+  const [loading, setLoading] = useState(false);
   const [loginState, setLoginState] = useState<LoginBody>(() =>
     fields.reduce<LoginBody>((acc, field) => ({ ...acc, [field.id]: '' }), {} as LoginBody),
   );
@@ -23,12 +26,18 @@ const Login: React.FC = () => {
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setLoading(true);
       signin(loginState)
-        .then(() => {})
-        .catch((err) => setErr(err.response.data.message));
+        .then(() => {
+          navigate('/');
+        })
+        .catch((err) => setErr(err.response.data.message))
+        .finally(() => setLoading(false));
     },
-    [loginState],
+    [loginState, navigate],
   );
+
+  console.log({ loading });
 
   return (
     <div className="py-20 mx-auto max-w-md">
@@ -58,7 +67,7 @@ const Login: React.FC = () => {
         </div>
 
         <FormExtra />
-        <FormAction handleSubmit={handleSubmit} text="Login" />
+        <FormAction loading={loading} handleSubmit={handleSubmit} text="Login" />
         {err && <ErrorAlert msg={err} className="w-full" />}
       </form>
     </div>

@@ -10,6 +10,7 @@ interface AuthInputProps {
   type: string;
   isRequired?: boolean;
   placeholder: string;
+  disabled?: boolean;
   customClass?: string;
 }
 
@@ -27,6 +28,7 @@ const AuthInput: React.FC<AuthInputProps> = ({
   isRequired = false,
   placeholder,
   customClass,
+  disabled = false
 }) => {
   return (
     <div className="my-5">
@@ -42,6 +44,7 @@ const AuthInput: React.FC<AuthInputProps> = ({
         required={isRequired}
         className={fixedInputClass + customClass}
         placeholder={placeholder}
+        disabled={disabled}
       />
     </div>
   );

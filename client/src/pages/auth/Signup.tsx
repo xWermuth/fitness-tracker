@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signup } from '../../api/auth';
 import ErrorAlert from '../../components/alert/ErrorAlert';
 import { LoginBody, SignupBody, signupFields } from '../../utils/auth.utils';
@@ -9,7 +10,9 @@ import FormAction from './components/FormAction';
 const fields = signupFields;
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
   const [err, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [signupState, setSignupState] = useState<SignupBody>(() =>
     fields.reduce<SignupBody>((acc, field) => ({ ...acc, [field.id]: '' }), {} as SignupBody),
   );
@@ -22,7 +25,13 @@ const Signup: React.FC = () => {
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      signup(signupState).catch((err) => setError(err.response.data.message));
+      setLoading(true);
+      signup(signupState)
+        .then(() => {
+          navigate('/');
+        })
+        .catch((err) => setError(err.response.data.message))
+        .finally(() => setLoading(false));
     },
     [signupState],
   );
@@ -45,9 +54,10 @@ const Signup: React.FC = () => {
               type={field.type}
               isRequired={field.isRequired}
               placeholder={field.placeholder}
+              disabled={loading}
             />
           ))}
-          <FormAction handleSubmit={handleSubmit} text="Signup" />
+          <FormAction loading={loading} handleSubmit={handleSubmit} text="Signup" />
         </div>
       </form>
       {err && <ErrorAlert msg={err} className="w-full mt-5" />}

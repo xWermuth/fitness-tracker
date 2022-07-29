@@ -3,9 +3,10 @@ services:
   db:
     image: mysql:8.0.26
     environment:
-      MYSQL_DATABASE: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_ADDRESS: 0.0.0.0
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
+      MYSQL__PASSWORD: ${MYSQL_PASSWORD:?err}
+      MYSQL_DATABASE: ${MYSQL_DB:?err}
+      MYSQL_USER: ${MYSQL_USER:?err}
     ports:
-      - "3307:3307"
+      - "3306:3306"
     restart: always

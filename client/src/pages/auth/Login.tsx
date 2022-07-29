@@ -37,8 +37,6 @@ const Login: React.FC = () => {
     [loginState, navigate],
   );
 
-  console.log({ loading });
-
   return (
     <div className="py-20 mx-auto max-w-md">
       <AuthHeader

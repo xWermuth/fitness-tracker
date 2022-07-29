@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/decorators';
 import { AuthDto } from 'src/dtos/auth.dto';
 import { RtGuard } from 'src/guards';
@@ -14,8 +14,6 @@ export class AuthController {
   @Post('signup')
   @HttpCode(HttpStatus.OK)
   async signup(@Body() dto: AuthDto, @Res() res: Response) {
-    console.log({ dto });
-
     const tokens = await this.authService.signup(dto);
     res.cookie(AUTH_CONSTANTS.COOKIE_KEY, tokens, { httpOnly: true }).status(HttpStatus.OK).send(tokens);
   }
@@ -47,7 +45,7 @@ export class AuthController {
   }
 
   @Get('temp')
-  temp(@Req() req: any) {
+  temp() {
     return 'hello world';
   }
 }

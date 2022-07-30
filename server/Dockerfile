@@ -12,6 +12,6 @@ COPY .env ./
 
 RUN npm run build
 RUN npm run schema
-EXPOSE 3000
+EXPOSE ${SERVER_PORT}
 
 CMD ["npm", "run", "start:dev"]

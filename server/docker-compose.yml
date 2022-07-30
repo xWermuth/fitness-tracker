@@ -21,6 +21,8 @@ services:
       - db
     depends_on:
       - db
+    ports:
+      - "${SERVER_PORT:?err}:${SERVER_PORT:?err}"
     volumes:
       - ./:/usr/local/apps/myapp
       - ignore:/usr/local/apps/myapp/node_modules/

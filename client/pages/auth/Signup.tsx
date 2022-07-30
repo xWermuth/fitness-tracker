@@ -39,7 +39,7 @@ const Signup: React.FC = () => {
 
   return (
     <div className="max-w-md h-full mx-auto py-20">
-      <AuthHeader heading="Login to your account" paragraph="Already have an account? " linkName="Login" linkUrl={paths.LOGIN} />
+      <AuthHeader heading="Create your account" paragraph="Already have an account? " linkName="Login" linkUrl={paths.LOGIN} />
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
         <div className="relative">

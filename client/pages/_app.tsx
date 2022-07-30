@@ -1,11 +1,15 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import axios from 'axios';
-
-axios;
+import { wrapper } from '../store/store';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  console.log({ pageProps });
+
+  return (
+    <div className="relative w-screen h-screen bg-stone-50">
+      <Component {...pageProps} />
+    </div>
+  );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

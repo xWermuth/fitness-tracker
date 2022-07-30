@@ -14,6 +14,7 @@
     "migrate:dev": "npx prisma migrate dev --name",
     "migrate:prod": "npx prisma migrate dev --name",
     "prebuild": "rimraf dist",
+    "docker:dev": "npm run migrate:dev test && npm run start:dev",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:debug": "nest start --debug --watch",

@@ -12,6 +12,8 @@ COPY .env ./
 
 RUN npm run build
 RUN npm run schema
+
 EXPOSE ${SERVER_PORT}
 
-CMD ["npm", "run", "start:dev"]
+# Starts migrations and runs server in watch mode
+CMD ["npm", "run", "docker:dev"]

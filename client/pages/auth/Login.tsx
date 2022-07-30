@@ -1,45 +1,41 @@
-import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
-import { signin } from "../../api/auth";
-import ErrorAlert from "../../components/alert/ErrorAlert";
-import AuthHeader from "../../components/auth/AuthHeader";
-import AuthInput from "../../components/auth/AuthInput";
-import FormAction from "../../components/auth/FormAction";
-import FormExtra from "../../components/auth/FormExtra";
-import { LoginBody, loginFields } from "../../utils/auth.utils";
+import { useRouter } from 'next/router';
+import React, { useCallback, useState } from 'react';
+import { signin } from '../../api/auth';
+import ErrorAlert from '../../components/alert/ErrorAlert';
+import AuthHeader from '../../components/auth/AuthHeader';
+import AuthInput from '../../components/auth/AuthInput';
+import FormAction from '../../components/auth/FormAction';
+import FormExtra from '../../components/auth/FormExtra';
+import { paths } from '../../utils';
+import { LoginBody, loginFields } from '../../utils/auth.utils';
 
 const fields = loginFields;
 
 const Login: React.FC = () => {
   const { push } = useRouter();
-  const [err, setErr] = useState("");
+  const [err, setErr] = useState('');
   const [loading, setLoading] = useState(false);
   const [loginState, setLoginState] = useState<LoginBody>(() =>
-    fields.reduce<LoginBody>(
-      (acc, field) => ({ ...acc, [field.id]: "" }),
-      {} as LoginBody
-    )
+    fields.reduce<LoginBody>((acc, field) => ({ ...acc, [field.id]: '' }), {} as LoginBody),
   );
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setErr("");
+    setErr('');
     setLoginState((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   }, []);
 
   const handleSubmit = useCallback(
-    (
-      e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>
-    ) => {
+    (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setLoading(true);
       signin(loginState)
         .then(() => {
-          push("/");
+          push('/');
         })
         .catch((err) => setErr(err.response.data.message))
         .finally(() => setLoading(false));
     },
-    [loginState, push]
+    [loginState, push],
   );
 
   return (
@@ -48,7 +44,7 @@ const Login: React.FC = () => {
         heading="Login to your account"
         paragraph="Don't have an account yet? "
         linkName="Signup"
-        linkUrl="/auth/signup"
+        linkUrl={paths.SIGNUP}
       />
 
       <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -70,11 +66,7 @@ const Login: React.FC = () => {
         </div>
 
         <FormExtra />
-        <FormAction
-          loading={loading}
-          handleSubmit={handleSubmit}
-          text="Login"
-        />
+        <FormAction loading={loading} handleSubmit={handleSubmit} text="Login" />
         {err && <ErrorAlert msg={err} className="w-full" />}
       </form>
     </div>

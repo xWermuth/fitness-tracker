@@ -1,5 +1,5 @@
-import Link from "next/link";
-import React from "react";
+import React from 'react';
+import Link from '../routes/Link';
 
 interface AuthHeaderProps {
   heading: string;
@@ -8,12 +8,7 @@ interface AuthHeaderProps {
   linkUrl?: string;
 }
 
-const AuthHeader: React.FC<AuthHeaderProps> = ({
-  heading,
-  paragraph,
-  linkName,
-  linkUrl = "#",
-}) => {
+const AuthHeader: React.FC<AuthHeaderProps> = ({ heading, paragraph, linkName, linkUrl = '#' }) => {
   return (
     <div className="mb-10">
       <div className="flex justify-center">
@@ -23,15 +18,10 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({
           src="https://ik.imagekit.io/pibjyepn7p9/Lilac_Navy_Simple_Line_Business_Logo_CGktk8RHK.png?ik-sdk-version=javascript-1.4.3&updatedAt=1649962071315"
         />
       </div>
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        {heading}
-      </h2>
+      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{heading}</h2>
       <p className="text-center text-sm text-gray-600 mt-5">
-        {paragraph}{" "}
-        <Link
-          href={linkUrl}
-          className="font-medium text-purple-600 hover:text-purple-500"
-        >
+        {paragraph}{' '}
+        <Link href={linkUrl} className="font-medium text-purple-600 hover:text-purple-500">
           {linkName}
         </Link>
       </p>

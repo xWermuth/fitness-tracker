@@ -1,5 +1,5 @@
 import React from 'react';
-import { paths } from '../../utils';
+import { paths } from '../../config';
 import Link from '../routes/Link';
 
 interface HomeNavProps {}

@@ -6,7 +6,7 @@ import AuthHeader from '../../components/auth/AuthHeader';
 import AuthInput from '../../components/auth/AuthInput';
 import FormAction from '../../components/auth/FormAction';
 import FormExtra from '../../components/auth/FormExtra';
-import { paths } from '../../utils';
+import { paths } from '../../config';
 import { LoginBody, loginFields } from '../../utils/auth.utils';
 
 const fields = loginFields;

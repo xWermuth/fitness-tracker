@@ -5,7 +5,7 @@ import ErrorAlert from '../../components/alert/ErrorAlert';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthInput from '../../components/auth/AuthInput';
 import FormAction from '../../components/auth/FormAction';
-import { paths } from '../../utils';
+import { paths } from '../../config';
 import { LoginBody, SignupBody, signupFields } from '../../utils/auth.utils';
 
 const fields = signupFields;

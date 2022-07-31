@@ -1,6 +1,11 @@
+import { paths } from './../../config/routes';
+import { setAuthenticated } from './../../store/features/global/global.actions';
 import { AxiosInstance } from 'axios';
+import { ReduxStore } from '../../store/store';
+import { routes } from '../../config';
+import { push } from 'connected-next-router';
 
-export function interceptRefreshToken(axios: AxiosInstance) {
+export function interceptRefreshToken(axios: AxiosInstance, store: ReduxStore) {
   axios.interceptors.response.use(
     (res) => {
       return res;
@@ -16,6 +21,13 @@ export function interceptRefreshToken(axios: AxiosInstance) {
 
             // Redirect the user to signin as the refresh token has expired or is invalidated
             if (res.status === 401) {
+              store.dispatch(setAuthenticated(false));
+              const pathname = store.getState().router.location.pathname;
+
+              if (pathname !== undefined && routes[pathname]?.public) {
+                store.dispatch(push(paths.LOGIN));
+              }
+
               return Promise.reject(err);
             }
 

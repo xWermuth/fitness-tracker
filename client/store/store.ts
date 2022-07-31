@@ -1,4 +1,4 @@
-import { AnyAction, combineReducers, configureStore, Reducer, ReducersMapObject } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer, RouterState } from 'connected-next-router';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { isDev } from '../utils';
@@ -16,7 +16,7 @@ const combinedReducer = combineReducers<AppState>({
 
 const routerMiddleware = createRouterMiddleware();
 
-const reducer: Reducer | ReducersMapObject = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
+const reducer = (state: ReturnType<typeof combinedReducer> | undefined, action: AnyAction) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
@@ -32,11 +32,15 @@ const reducer: Reducer | ReducersMapObject = (state: ReturnType<typeof combinedR
   }
 };
 
-export const makeStore = () => {
-  return configureStore({
+export const { makeStore, store } = (function () {
+  const store = configureStore({
     reducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware),
   });
-};
+
+  return { store, makeStore: () => store };
+})();
+
+export type ReduxStore = typeof store;
 
 export const wrapper = createWrapper(makeStore, { debug: isDev });

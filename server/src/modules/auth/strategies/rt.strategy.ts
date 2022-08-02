@@ -11,22 +11,26 @@ import { JwtPayload, JwtPayloadWithRt } from 'src/types/jwt.types';
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(config: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([(request:Request) => {
-        const data:Tokens = request?.cookies[AUTH_CONSTANTS.COOKIE_KEY];
-        if(!data){
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (request: Request) => {
+          const tokens: Tokens = request?.cookies[AUTH_CONSTANTS.AUTH_COOKIE];
+          console.log('RtStrategy:: ', tokens);
+
+          if (!tokens) {
             return null;
-        }
-        return data.refresh_token;
-    }]),
+          }
+          return tokens.refresh_token;
+        },
+      ]),
       secretOrKey: config.get<string>('REFRESH_TOKEN_SECRET'),
       passReqToCallback: true,
     });
   }
 
   validate(req: Request, payload: JwtPayload): JwtPayloadWithRt {
-    const tokens:Tokens | undefined = req?.cookies[AUTH_CONSTANTS.COOKIE_KEY]
+    const tokens: Tokens | undefined = req?.cookies[AUTH_CONSTANTS.AUTH_COOKIE];
 
-    if (!tokens?.refresh_token) {
+    if (!tokens) {
       throw new ForbiddenException('Refresh token malformed');
     }
 

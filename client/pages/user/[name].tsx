@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next/types';
 import React, { useEffect, useState } from 'react';
 import { getUserDetails, UserRes } from '../../api/user';
-import { AT_COOKIE_KEY, isOnServer, RT_COOKIE_KEY, SVG_TRIANGLE_PATH } from '../../utils';
+import { AUTH_COOKIE_KEY, isOnServer, SVG_TRIANGLE_PATH } from '../../utils';
 
 interface Props {
   user: UserRes;
@@ -53,8 +53,8 @@ const user: React.FC<Props> = ({ user }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   console.log('is: ', isOnServer());
   console.log('manual:: ', typeof window === 'undefined');
-  console.log('rt: coookies: ', Cookies.get(RT_COOKIE_KEY));
-  console.log('at: coookies: ', Cookies.get(AT_COOKIE_KEY));
+  console.log('rt: coookies: ', Cookies.get(AUTH_COOKIE_KEY));
+  console.log('at: coookies: ', Cookies.get(AUTH_COOKIE_KEY));
   return { props: {} };
 };
 

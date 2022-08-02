@@ -1,8 +1,10 @@
+import Cookies from 'js-cookie';
 import type { NextPage } from 'next';
 import HomeNav from '../components/nav/HomeNav';
 import { SVG_TRIANGLE_PATH } from '../utils/resources.utils';
 
 const Home: NextPage = () => {
+  console.log('-----cokies:: ', Cookies.get('refresh-tokenasdasas'));
   return (
     <div
       className="relative w-screen h-screen bg-cover"

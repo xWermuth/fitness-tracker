@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { signin } from '../../api/auth';
 import ErrorAlert from '../../components/alert/ErrorAlert';
 import AuthHeader from '../../components/auth/AuthHeader';
@@ -7,11 +8,14 @@ import AuthInput from '../../components/auth/AuthInput';
 import FormAction from '../../components/auth/FormAction';
 import FormExtra from '../../components/auth/FormExtra';
 import { paths } from '../../config';
+import { setAuthenticated } from '../../store/features/global/global.actions';
+import { isOnServer } from '../../utils';
 import { LoginBody, loginFields } from '../../utils/auth.utils';
 
 const fields = loginFields;
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const { push } = useRouter();
   const [err, setErr] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,19 +28,19 @@ const Login: React.FC = () => {
     setLoginState((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   }, []);
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setLoading(true);
-      signin(loginState)
-        .then(() => {
-          push('/');
-        })
-        .catch((err) => setErr(err.response.data.message))
-        .finally(() => setLoading(false));
-    },
-    [loginState, push],
-  );
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log('handleSubmit: ', isOnServer());
+
+    signin(loginState)
+      .then(() => {
+        dispatch(setAuthenticated(true));
+        push('/');
+      })
+      .catch((err) => setErr(err.message))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <div className="py-20 mx-auto max-w-md">

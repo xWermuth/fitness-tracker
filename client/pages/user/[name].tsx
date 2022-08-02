@@ -1,13 +1,21 @@
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next/types';
 import React, { useEffect, useState } from 'react';
-import { SVG_TRIANGLE_PATH } from '../../utils';
+import { getUserDetails, UserRes } from '../../api/user';
+import { AT_COOKIE_KEY, isOnServer, RT_COOKIE_KEY, SVG_TRIANGLE_PATH } from '../../utils';
 
-const user: React.FC = () => {
+interface Props {
+  user: UserRes;
+}
+
+const user: React.FC<Props> = ({ user }) => {
   const router = useRouter();
   const { name } = router.query;
   const [date, setDate] = useState('');
 
   useEffect(() => {
+    getUserDetails();
     setDate(new Date().toLocaleString());
   }, []);
 
@@ -22,7 +30,7 @@ const user: React.FC = () => {
         <span className="text-sm font-normal">{date}</span>
       </div>
 
-      <div className="rounded-lg px-5 py-3 bg-main-light w-80 space-y-3">
+      <div className="rounded-lg p-5 bg-main-light w-80 space-y-3">
         <div className="rounded w-full h-40 overflow-hidden">
           <img src={SVG_TRIANGLE_PATH} className="w-full" draggable={false} />
         </div>
@@ -40,6 +48,14 @@ const user: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log('is: ', isOnServer());
+  console.log('manual:: ', typeof window === 'undefined');
+  console.log('rt: coookies: ', Cookies.get(RT_COOKIE_KEY));
+  console.log('at: coookies: ', Cookies.get(AT_COOKIE_KEY));
+  return { props: {} };
 };
 
 export default user;

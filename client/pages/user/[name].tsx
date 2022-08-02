@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next/types';
 import React, { useEffect, useState } from 'react';
@@ -14,7 +13,6 @@ interface Props {
 const user: React.FC<Props> = ({ user }) => {
   const router = useRouter();
   const [date, setDate] = useState('');
-  const { name } = router.query;
   const userInfo = useSelector(getUserInfo);
 
   useEffect(() => {

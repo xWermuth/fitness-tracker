@@ -15,7 +15,7 @@ export class AuthController {
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.OK)
-  async signup(@Body() dto: AuthDto, @Res() res: Response) {
+  async signup(@Body() dto: AuthDto) {
     await this.authService.signup(dto);
     return true;
   }
@@ -23,8 +23,8 @@ export class AuthController {
   @Public()
   @Post('signin')
   async signin(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
-    const tokens = await this.authService.signin(dto);
-    this.setCookie(res, tokens).status(HttpStatus.OK).send(tokens);
+    const { user, tokens } = await this.authService.signin(dto);
+    this.setCookie(res, tokens).status(HttpStatus.OK).send(user);
   }
 
   @Post('logout')

@@ -3,8 +3,9 @@ import { SignupBody } from './../utils/auth.utils';
 import { LoginBody } from '../utils/auth.utils';
 import api from './api';
 import Cookies from 'js-cookie';
+import { UserRes } from './user';
 
-export type SigninResponse = { access_token: string; refresh_token: string };
+export type SigninResponse = UserRes;
 export type SignupResponse = boolean;
 
 export async function signup(body: SignupBody) {

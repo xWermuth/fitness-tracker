@@ -89,12 +89,14 @@ describe('Auth Flow', () => {
     it('should throw if no existing user', async () => {
       let tokens: Tokens | undefined;
       try {
-        tokens = await authService.signin({
-          email: user.email,
-          password: user.password,
-          name: user.name,
-          confirmPassword: user.confirmPassword,
-        });
+        tokens = (
+          await authService.signin({
+            email: user.email,
+            password: user.password,
+            name: user.name,
+            confirmPassword: user.confirmPassword,
+          })
+        ).tokens;
       } catch (error) {
         expect(error.status).toBe(403);
       }
@@ -110,7 +112,7 @@ describe('Auth Flow', () => {
         confirmPassword: user.confirmPassword,
       });
 
-      const tokens = await authService.signin({
+      const { tokens } = await authService.signin({
         email: user.email,
         password: user.password,
         name: user.name,
@@ -124,12 +126,14 @@ describe('Auth Flow', () => {
     it('should throw if password incorrect', async () => {
       let tokens: Tokens | undefined;
       try {
-        tokens = await authService.signin({
-          email: user.email,
-          password: user.password + 'a',
-          name: user.name,
-          confirmPassword: user.confirmPassword,
-        });
+        tokens = (
+          await authService.signin({
+            email: user.email,
+            password: user.password + 'a',
+            name: user.name,
+            confirmPassword: user.confirmPassword,
+          })
+        ).tokens;
       } catch (error) {
         expect(error.status).toBe(403);
       }

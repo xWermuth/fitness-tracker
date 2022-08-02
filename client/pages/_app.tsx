@@ -4,17 +4,17 @@ import { wrapper } from '../store/store';
 import { ConnectedRouter } from 'connected-next-router';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { doesHttpOnlyCookieExist } from '../utils';
+import { fetchUser } from '../store/features/user/user.actions';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const dispatch = useDispatch();
-  const hasFetched = useRef(false);
 
-  // useEffect(() => {
-  //   if (hasFetched.current) return;
-
-  //   hasFetched.current = true;
-  //   getUserDetails().then(console.log);
-  // }, [hasFetched.current]);
+  useEffect(() => {
+    if (doesHttpOnlyCookieExist()) {
+      dispatch(fetchUser(null));
+    }
+  }, []);
 
   return (
     <div className="relative w-screen h-screen bg-stone-50">

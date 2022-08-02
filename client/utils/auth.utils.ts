@@ -1,3 +1,4 @@
+import { AUTH_COOKIE_KEY } from './utils';
 const emailLabel = 'email';
 const usernameLabel = 'name';
 const passwordLabel = 'password';
@@ -13,7 +14,7 @@ export interface SignupBody extends LoginBody {
   [usernameLabel]: string;
 }
 
-const loginFields = [
+export const loginFields = [
   {
     labelText: 'Email address',
     labelFor: emailLabel,
@@ -36,7 +37,7 @@ const loginFields = [
   },
 ];
 
-const signupFields = [
+export const signupFields = [
   {
     labelText: 'Username',
     labelFor: usernameLabel,
@@ -79,4 +80,11 @@ const signupFields = [
   },
 ];
 
-export { loginFields, signupFields };
+export function doesHttpOnlyCookieExist() {
+  var d = new Date();
+  d.setTime(d.getTime() + 1000);
+  var expires = 'expires=' + d.toUTCString();
+
+  document.cookie = AUTH_COOKIE_KEY + '=new_value;path=/;' + expires;
+  return document.cookie.indexOf(AUTH_COOKIE_KEY + '=') == -1;
+}

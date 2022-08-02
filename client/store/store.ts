@@ -1,3 +1,4 @@
+import { userReducer, UserState } from './features/user/user.reducer';
 import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer, RouterState } from 'connected-next-router';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
@@ -7,11 +8,13 @@ import { globalReducer, GlobalState } from './features/global/global.reducer';
 export interface AppState {
   globalReducer: GlobalState;
   router: RouterState;
+  user: UserState;
 }
 
 const combinedReducer = combineReducers<AppState>({
   globalReducer,
   router: routerReducer,
+  user: userReducer,
 });
 
 const routerMiddleware = createRouterMiddleware();

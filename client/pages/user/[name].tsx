@@ -2,7 +2,9 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next/types';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails, UserRes } from '../../api/user';
+import { getUserInfo } from '../../store/features/user/user.selectors';
 import { AUTH_COOKIE_KEY, isOnServer, SVG_TRIANGLE_PATH } from '../../utils';
 
 interface Props {
@@ -11,20 +13,25 @@ interface Props {
 
 const user: React.FC<Props> = ({ user }) => {
   const router = useRouter();
-  const { name } = router.query;
   const [date, setDate] = useState('');
+  const { name } = router.query;
+  const userInfo = useSelector(getUserInfo);
 
   useEffect(() => {
-    getUserDetails();
     setDate(new Date().toLocaleString());
   }, []);
+
+  // TODO fix
+  if (!userInfo) {
+    return <h3>Loading....</h3>;
+  }
 
   return (
     <div className="w-full h-full bg-main-dark text-white p-10 space-y-10">
       <div>
         <div className="flex items-center space-x-1 text-xl font-medium">
           <h1>Welcome back </h1>
-          <h1 className="uppercase">{name}!</h1>
+          <h1 className="uppercase">{userInfo.email}!</h1>
         </div>
 
         <span className="text-sm font-normal">{date}</span>
@@ -48,14 +55,6 @@ const user: React.FC<Props> = ({ user }) => {
       </div>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log('is: ', isOnServer());
-  console.log('manual:: ', typeof window === 'undefined');
-  console.log('rt: coookies: ', Cookies.get(AUTH_COOKIE_KEY));
-  console.log('at: coookies: ', Cookies.get(AUTH_COOKIE_KEY));
-  return { props: {} };
 };
 
 export default user;

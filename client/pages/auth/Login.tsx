@@ -9,6 +9,7 @@ import FormAction from '../../components/auth/FormAction';
 import FormExtra from '../../components/auth/FormExtra';
 import { paths } from '../../config';
 import { setAuthenticated } from '../../store/features/global/global.actions';
+import { setUserInfo } from '../../store/features/user/user.actions';
 import { isOnServer } from '../../utils';
 import { LoginBody, loginFields } from '../../utils/auth.utils';
 
@@ -34,9 +35,10 @@ const Login: React.FC = () => {
     console.log('handleSubmit: ', isOnServer());
 
     signin(loginState)
-      .then(() => {
+      .then((user) => {
         dispatch(setAuthenticated(true));
-        push('/');
+        dispatch(setUserInfo(user));
+        push(`${paths.PROFILE}${user.name}`);
       })
       .catch((err) => setErr(err.message))
       .finally(() => setLoading(false));

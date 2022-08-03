@@ -1,4 +1,3 @@
-import { AUTH_COOKIE_KEY } from './../utils/utils';
 import { SignupBody } from './../utils/auth.utils';
 import { LoginBody } from '../utils/auth.utils';
 import api from './api';

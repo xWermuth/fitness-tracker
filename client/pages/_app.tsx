@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (doesHttpOnlyCookieExist()) {
+      // @ts-expect-error
       dispatch(fetchUser(null));
     }
   }, []);

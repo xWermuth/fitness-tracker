@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         backgroundImage: `url('${SVG_TRIANGLE_PATH}')`,
       }}
     >
-      <div className="w-full h-full bg-slate-900 bg-opacity-40">
+      <div className="w-full h-full bg-slate-900 bg-opacity-40 p-10">
         <HomeNav />
       </div>
     </div>

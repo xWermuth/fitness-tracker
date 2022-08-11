@@ -28,9 +28,7 @@ const Signup: React.FC = () => {
       e.preventDefault();
       setLoading(true);
       signup(signupState)
-        .then(() => {
-          push('/');
-        })
+        .then(() => push(paths.LOGIN))
         .catch((err) => setError(err.response.data.message))
         .finally(() => setLoading(false));
     },

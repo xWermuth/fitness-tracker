@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next/types';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails, UserRes } from '../../api/user';
+import { useSelector } from 'react-redux';
+import { UserRes } from '../../api/user';
+import Logo from '../../components/logo/Logo';
 import { getUserInfo } from '../../store/features/user/user.selectors';
-import { AUTH_COOKIE_KEY, isOnServer, SVG_TRIANGLE_PATH } from '../../utils';
+import { SVG_TRIANGLE_PATH } from '../../utils';
 
 interface Props {
   user: UserRes;
@@ -26,6 +26,7 @@ const user: React.FC<Props> = ({ user }) => {
 
   return (
     <div className="w-full h-full bg-main-dark text-white p-10 space-y-10">
+      <Logo />
       <div>
         <div className="flex items-center space-x-1 text-xl font-medium">
           <h1>Welcome back </h1>

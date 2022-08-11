@@ -1,3 +1,4 @@
+import { setAuthenticated } from './../global/global.actions';
 import { UserRes } from './../../../api/user';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { getUserDetails } from '../../../api/user';
@@ -10,6 +11,7 @@ export const fetchUser = createAsyncThunk(userConstants.FETCH_USER, async (_: nu
   try {
     const user = await getUserDetails();
     thunk.dispatch(setUserInfo(user));
+    thunk.dispatch(setAuthenticated(true));
   } catch (error: any) {
     thunk.dispatch(riseError(error.message));
   }

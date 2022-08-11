@@ -1,6 +1,4 @@
-import { AUTH_COOKIE_KEY } from './../utils/utils';
 import axios, { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
 import getConfig from 'next/config';
 import { AuthTokens } from '../interfaces/tokens.interface';
 import Router from 'next/router';
@@ -17,7 +15,6 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  console.log('req: ', Cookies.get(AUTH_COOKIE_KEY));
   // config.headers = { ...config.headers, Authorization: `Bearer ${Cookies.get(AUTH_COOKIE)}` };
   // config.headers.fingerprint = await fingerprint;
   return config;
@@ -36,10 +33,7 @@ function resetSubscribers() {
 }
 
 api.interceptors.response.use(
-  (res) => {
-    console.log('refresh: ', Cookies.get(AUTH_COOKIE_KEY));
-    return res;
-  },
+  (res) => res,
   async (error: AxiosError) => {
     const originalRequest = error.config;
 

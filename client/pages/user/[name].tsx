@@ -11,7 +11,6 @@ interface Props {
 }
 
 const user: React.FC<Props> = ({ user }) => {
-  const router = useRouter();
   const [date, setDate] = useState('');
   const userInfo = useSelector(getUserInfo);
 
@@ -25,7 +24,7 @@ const user: React.FC<Props> = ({ user }) => {
   }
 
   return (
-    <div className="w-full h-full bg-main-dark text-white p-10 space-y-10">
+    <div className="w-full h-full space-y-10">
       <Logo />
       <div>
         <div className="flex items-center space-x-1 text-xl font-medium">

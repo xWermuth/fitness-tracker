@@ -7,10 +7,11 @@ export const paths = {
 
 type Routes = typeof paths[keyof typeof paths];
 
-export const routes: Record<Routes, { path: string; public?: boolean }> = {
+export const routes: Record<Routes, { path: string; public?: boolean; disablePadding?: boolean }> = {
   [paths.HOME]: {
     path: paths.HOME,
     public: true,
+    disablePadding: true,
   },
   [paths.LOGIN]: {
     path: paths.LOGIN,

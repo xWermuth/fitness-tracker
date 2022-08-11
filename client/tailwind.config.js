@@ -9,6 +9,9 @@ module.exports = {
           light: '#202124',
         },
       },
+      padding: {
+        main: '2rem 2.5rem 2rem 2.5rem',
+      },
     },
   },
   plugins: [],

@@ -7,6 +7,7 @@ import { getUserInfo } from '../../store/features/user/user.selectors';
 import mc from '../../utils/mc.utils';
 import Logo from '../logo/Logo';
 import Link from '../routes/Link';
+import BaseNav from './BaseNav';
 
 interface HomeNavProps {}
 
@@ -16,13 +17,7 @@ const HomeNav: React.FC<HomeNavProps> = ({}) => {
   console.log('isAuthenticated', isAuthenticated);
 
   return (
-    <nav className="flex flex-row w-full">
-      <ul className="h-full w-1/2 flex justify-between items-center">
-        <li className="mr-4">
-          <Logo />
-        </li>
-      </ul>
-
+    <BaseNav>
       <ul className="h-full w-1/2 flex justify-end items-center space-x-4">
         {isAuthenticated ? (
           <>
@@ -35,7 +30,7 @@ const HomeNav: React.FC<HomeNavProps> = ({}) => {
           </>
         )}
       </ul>
-    </nav>
+    </BaseNav>
   );
 };
 

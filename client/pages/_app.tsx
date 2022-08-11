@@ -6,9 +6,14 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { doesHttpOnlyCookieExist } from '../utils';
 import { fetchUser } from '../store/features/user/user.actions';
+import { useRouter } from 'next/router';
+import { routes } from '../config';
+import mc from '../utils/mc.utils';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const dispatch = useDispatch();
+  const { pathname } = useRouter();
+  const padding = routes[pathname]?.disablePadding ? '' : 'p-main';
 
   useEffect(() => {
     if (doesHttpOnlyCookieExist()) {
@@ -18,7 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen bg-stone-50">
+    <div className={mc('relative w-screen h-screen bg-main-dark text-white', padding)}>
       <ConnectedRouter>
         <Component {...pageProps} />
       </ConnectedRouter>

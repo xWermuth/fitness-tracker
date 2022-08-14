@@ -1,24 +1,25 @@
 -- CreateTable
 CREATE TABLE `Exercise` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `reps` INTEGER NOT NULL,
+    `sets` INTEGER NOT NULL,
+    `weight` INTEGER NULL,
 
+    UNIQUE INDEX `Exercise_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Workout` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
-    `exerciseId` INTEGER NOT NULL,
-    `reps` INTEGER NOT NULL,
-    `sets` INTEGER NOT NULL,
-    `weight` INTEGER NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `duration` INTEGER NOT NULL,
+    `intensity` VARCHAR(255) NOT NULL,
     `userId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Workout_exerciseId_key`(`exerciseId`),
-    UNIQUE INDEX `Workout_userId_key`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -48,11 +49,23 @@ CREATE TABLE `User` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- AddForeignKey
-ALTER TABLE `Workout` ADD CONSTRAINT `Workout_exerciseId_fkey` FOREIGN KEY (`exerciseId`) REFERENCES `Exercise`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateTable
+CREATE TABLE `_ExerciseToWorkout` (
+    `A` INTEGER NOT NULL,
+    `B` INTEGER NOT NULL,
+
+    UNIQUE INDEX `_ExerciseToWorkout_AB_unique`(`A`, `B`),
+    INDEX `_ExerciseToWorkout_B_index`(`B`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
 ALTER TABLE `Workout` ADD CONSTRAINT `Workout_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_ExerciseToWorkout` ADD CONSTRAINT `_ExerciseToWorkout_A_fkey` FOREIGN KEY (`A`) REFERENCES `Exercise`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_ExerciseToWorkout` ADD CONSTRAINT `_ExerciseToWorkout_B_fkey` FOREIGN KEY (`B`) REFERENCES `Workout`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

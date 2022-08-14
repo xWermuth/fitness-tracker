@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { UserRes } from '../../api/user';
 import Logo from '../../components/logo/Logo';
+import UserNav from '../../components/nav/UserNav';
 import { getUserInfo } from '../../store/features/user/user.selectors';
 import { SVG_TRIANGLE_PATH } from '../../utils';
 
@@ -25,7 +26,7 @@ const user: React.FC<Props> = ({ user }) => {
 
   return (
     <div className="w-full h-full space-y-10">
-      <Logo />
+      <UserNav />
       <div>
         <div className="flex items-center space-x-1 text-xl font-medium">
           <h1>Welcome back </h1>

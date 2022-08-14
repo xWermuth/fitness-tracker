@@ -5,6 +5,7 @@ import { paths } from '../../config';
 import { getAuthState } from '../../store/features/global/global.selectors';
 import { getUserInfo } from '../../store/features/user/user.selectors';
 import mc from '../../utils/mc.utils';
+import NavBtn from '../buttons/NavBtn';
 import Logo from '../logo/Logo';
 import Link from '../routes/Link';
 import BaseNav from './BaseNav';
@@ -31,16 +32,6 @@ const HomeNav: React.FC<HomeNavProps> = ({}) => {
         )}
       </ul>
     </BaseNav>
-  );
-};
-
-const NavBtn: React.FC<{ name: string; to: string; className?: string }> = ({ name, to, className }) => {
-  return (
-    <li>
-      <Link href={to} className={mc('rounded text-white text-lg', className)}>
-        {name}
-      </Link>
-    </li>
   );
 };
 

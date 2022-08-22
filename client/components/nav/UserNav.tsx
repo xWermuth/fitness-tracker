@@ -1,4 +1,6 @@
 import React from 'react';
+import { paths } from '../../config';
+import Link from '../routes/Link';
 import BaseNav from './BaseNav';
 
 const UserNav: React.FC = () => {
@@ -6,12 +8,12 @@ const UserNav: React.FC = () => {
     <BaseNav>
       <ul className="h-full w-1/2 flex justify-end items-center space-x-4">
         <li>
-          <button
-            type="button"
+          <Link
             className="px-4 py-2 text-lg font-normal bg-green-600 rounded hover:bg-green-500 hover:scale-105 duration-100"
+            href={paths.WORKOUT}
           >
             Create workout
-          </button>
+          </Link>
         </li>
       </ul>
     </BaseNav>

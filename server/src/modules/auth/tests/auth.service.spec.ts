@@ -6,13 +6,7 @@ import { AppModule } from 'src/app.module';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { PrismaService } from 'src/modules/db/prisma.service';
 import { Tokens } from 'src/types/token.types';
-
-const user: AuthDto = {
-  email: 'test@gmail.com',
-  name: 'test',
-  password: 'super-secret-password',
-  confirmPassword: 'super-secret-password',
-};
+import { AuthFixture } from './auth.fixture';
 
 describe('Auth Flow', () => {
   let prisma: PrismaService;
@@ -39,10 +33,10 @@ describe('Auth Flow', () => {
 
     it('should signup', async () => {
       const tokens = await authService.signup({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       expect(tokens.access_token).toBeTruthy();
@@ -54,7 +48,7 @@ describe('Auth Flow', () => {
       try {
         tokens = await authService.signup({
           email: 'test@gmail.com',
-          password: user.password,
+          password: AuthFixture.password,
           name: 'test',
           confirmPassword: 'mypassword',
         });
@@ -69,10 +63,10 @@ describe('Auth Flow', () => {
       let tokens: Tokens | undefined;
       try {
         tokens = await authService.signup({
-          email: user.email,
-          password: user.password,
-          name: user.name,
-          confirmPassword: user.confirmPassword,
+          email: AuthFixture.email,
+          password: AuthFixture.password,
+          name: AuthFixture.name,
+          confirmPassword: AuthFixture.confirmPassword,
         });
       } catch (error) {
         expect(error.status).toBe(403);
@@ -91,10 +85,10 @@ describe('Auth Flow', () => {
       try {
         tokens = (
           await authService.signin({
-            email: user.email,
-            password: user.password,
-            name: user.name,
-            confirmPassword: user.confirmPassword,
+            email: AuthFixture.email,
+            password: AuthFixture.password,
+            name: AuthFixture.name,
+            confirmPassword: AuthFixture.confirmPassword,
           })
         ).tokens;
       } catch (error) {
@@ -106,17 +100,17 @@ describe('Auth Flow', () => {
 
     it('should login', async () => {
       await authService.signup({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       const { tokens } = await authService.signin({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       expect(tokens.access_token).toBeTruthy();
@@ -128,10 +122,10 @@ describe('Auth Flow', () => {
       try {
         tokens = (
           await authService.signin({
-            email: user.email,
-            password: user.password + 'a',
-            name: user.name,
-            confirmPassword: user.confirmPassword,
+            email: AuthFixture.email,
+            password: AuthFixture.password + 'a',
+            name: AuthFixture.name,
+            confirmPassword: AuthFixture.confirmPassword,
           })
         ).tokens;
       } catch (error) {
@@ -154,17 +148,17 @@ describe('Auth Flow', () => {
 
     it('should logout', async () => {
       await authService.signup({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       let userFromDb: User | null;
 
       userFromDb = await prisma.user.findFirst({
         where: {
-          email: user.email,
+          email: AuthFixture.email,
         },
       });
       expect(userFromDb?.hashedRt).toBeTruthy();
@@ -174,7 +168,7 @@ describe('Auth Flow', () => {
 
       userFromDb = await prisma.user.findFirst({
         where: {
-          email: user.email,
+          email: AuthFixture.email,
         },
       });
 
@@ -201,10 +195,10 @@ describe('Auth Flow', () => {
     it('should throw if user logged out', async () => {
       // signup and save refresh token
       const _tokens = await authService.signup({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       const rt = _tokens.refresh_token;
@@ -232,10 +226,10 @@ describe('Auth Flow', () => {
       await prisma.cleanDatabase();
 
       const _tokens = await authService.signup({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       const rt = _tokens.refresh_token;
@@ -256,10 +250,10 @@ describe('Auth Flow', () => {
       await prisma.cleanDatabase();
       // log in the user again and save rt + at
       const _tokens = await authService.signup({
-        email: user.email,
-        password: user.password,
-        name: user.name,
-        confirmPassword: user.confirmPassword,
+        email: AuthFixture.email,
+        password: AuthFixture.password,
+        name: AuthFixture.name,
+        confirmPassword: AuthFixture.confirmPassword,
       });
 
       const rt = _tokens.refresh_token;

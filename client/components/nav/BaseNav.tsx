@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../logo/Logo';
 
-const BaseNav: React.FC<{ children: JSX.Element }> = ({ children }) => {
+const BaseNav: React.FC<{ children?: JSX.Element }> = ({ children }) => {
   return (
     <nav className="flex flex-row w-full">
       <ul className="h-full w-1/2 flex justify-between items-center">
@@ -10,7 +10,7 @@ const BaseNav: React.FC<{ children: JSX.Element }> = ({ children }) => {
         </li>
       </ul>
 
-      {children}
+      {children && children}
     </nav>
   );
 };

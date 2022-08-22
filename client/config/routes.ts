@@ -3,6 +3,7 @@ export const paths = {
   LOGIN: '/auth/Login',
   SIGNUP: '/auth/Signup',
   PROFILE: '/user/',
+  WORKOUT: '/workout/',
 };
 
 type Routes = typeof paths[keyof typeof paths];
@@ -23,6 +24,10 @@ export const routes: Record<Routes, { path: string; public?: boolean; disablePad
   },
   [paths.PROFILE]: {
     path: paths.PROFILE,
+    public: false,
+  },
+  [paths.WORKOUT]: {
+    path: paths.WORKOUT,
     public: false,
   },
 };

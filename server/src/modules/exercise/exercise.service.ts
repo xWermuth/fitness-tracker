@@ -6,10 +6,10 @@ import { Injectable } from '@nestjs/common';
 export class ExerciseService {
   constructor(private db: PrismaService) {}
 
-  async createExercise(dto: ExerciseDto) {
-    console.log('this.db.exercise.create: ', this.db.exercise.create);
+  async create(dto: ExerciseDto) {
+    console.log('this.db.exercise.create: ', dto);
 
     const res = await this.db.exercise.create({ data: dto });
-    return res.id;
+    return true;
   }
 }

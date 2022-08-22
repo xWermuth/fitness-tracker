@@ -29,6 +29,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     if (!this.isTesting) {
       return;
     }
-    await this.user.deleteMany();
+
+    try {
+      if ((await this.exercise.count()) !== 0) await this.exercise.deleteMany();
+      if ((await this.workout.count()) !== 0) await this.workout.deleteMany();
+      await this.user.deleteMany();
+    } catch (e) {}
   }
 }

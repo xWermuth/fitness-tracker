@@ -1,3 +1,4 @@
+import { WorkoutModule } from './modules/workout/workout.module';
 import { ExerciseModule } from './modules/exercise/exercise.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -11,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RolesGuard } from './guards/roles.guard';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UserModule, PrismaModule, ExerciseModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UserModule, PrismaModule, WorkoutModule, ExerciseModule],
   controllers: [AppController],
   providers: [
     AppService,

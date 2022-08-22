@@ -11,14 +11,15 @@ datasource db {
 }
 
 model Exercise {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String    @unique @db.VarChar(255)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique @db.VarChar(255)
   reps      Int
   sets      Int
   weight    Int? //Default in kg
-  workout   Workout[]
+  workoutId Int
+  workout   Workout  @relation(fields: [workoutId], references: [id])
 }
 
 model Workout {
@@ -27,8 +28,8 @@ model Workout {
   duration  Int
   intensity String     @db.VarChar(255)
   userId    Int
-  exercise  User       @relation(fields: [userId], references: [id])
-  exercises Exercise[]
+  user      User       @relation(fields: [userId], references: [id])
+  exercise  Exercise[]
 }
 
 model Profile {

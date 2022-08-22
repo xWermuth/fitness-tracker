@@ -2,7 +2,7 @@ import React from 'react';
 
 interface AuthInputProps {
   handleChange(e: React.ChangeEvent<HTMLInputElement>): void;
-  value: string;
+  value: string | number;
   labelText: string;
   labelFor: string;
   id: string;
@@ -28,7 +28,7 @@ const AuthInput: React.FC<AuthInputProps> = ({
   isRequired = false,
   placeholder,
   customClass,
-  disabled = false
+  disabled = false,
 }) => {
   return (
     <div className="my-5">
@@ -40,7 +40,7 @@ const AuthInput: React.FC<AuthInputProps> = ({
         value={value}
         id={id}
         name={name}
-        type={type}
+        type={''}
         required={isRequired}
         className={fixedInputClass + customClass}
         placeholder={placeholder}

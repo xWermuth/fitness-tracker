@@ -14,4 +14,9 @@ export class WorkoutController {
   public async create(@GetCurrentUserId() userId: number, @Body() workoutDto: WorkoutReqDto) {
     return await this.workoutService.create({ ...workoutDto, userId });
   }
+
+  @Get()
+  public async get(@GetCurrentUserId() userId: number) {
+    return await this.workoutService.getAll(userId);
+  }
 }

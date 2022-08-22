@@ -2,8 +2,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { UserRes } from '../../api/user';
+import { getWorkout } from '../../api/workout';
 import Logo from '../../components/logo/Logo';
 import UserNav from '../../components/nav/UserNav';
+import { Workout } from '../../interfaces/workout.interface';
 import { getUserInfo } from '../../store/features/user/user.selectors';
 import { SVG_TRIANGLE_PATH } from '../../utils';
 
@@ -13,10 +15,13 @@ interface Props {
 
 const user: React.FC<Props> = ({ user }) => {
   const [date, setDate] = useState('');
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
   const userInfo = useSelector(getUserInfo);
 
   useEffect(() => {
     setDate(new Date().toLocaleString());
+
+    getWorkout().then(setWorkouts).catch(console.error);
   }, []);
 
   // TODO fix
@@ -36,22 +41,26 @@ const user: React.FC<Props> = ({ user }) => {
         <span className="text-sm font-normal">{date}</span>
       </div>
 
-      <div className="rounded-lg p-5 bg-main-light w-80 space-y-3">
-        <div className="rounded w-full h-40 overflow-hidden">
-          <img src={SVG_TRIANGLE_PATH} className="w-full" draggable={false} />
-        </div>
-        <div className="w-full flex flex-col space-y-0">
-          <h3 className="font-medium">Start workout name</h3>
-          <span>
-            <small className="text-gray-200 font-normal text-sm">Duration: </small>
-            <small className="font-normal text-white text-sm">30 min.</small>
-          </span>
-          <span>
-            <small className="text-gray-200 font-normal text-sm">Intensity: </small>
-            <small className="font-normal text-white text-sm">Beginner</small>
-          </span>
-        </div>
-      </div>
+      {workouts.map((workout) => {
+        return (
+          <div key={workout.id} className="rounded-lg p-5 bg-main-light w-80 space-y-3">
+            <div className="rounded w-full h-40 overflow-hidden">
+              <img src={SVG_TRIANGLE_PATH} className="w-full" draggable={false} />
+            </div>
+            <div className="w-full flex flex-col space-y-0">
+              <h3 className="font-medium">{workout.name}</h3>
+              <span>
+                <small className="text-gray-200 font-normal text-sm">Duration: </small>
+                <small className="font-normal text-white text-sm">{workout.duration} min.</small>
+              </span>
+              <span>
+                <small className="text-gray-200 font-normal text-sm">Intensity: </small>
+                <small className="font-normal text-white text-sm">{workout.intensity}</small>
+              </span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

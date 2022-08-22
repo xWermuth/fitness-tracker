@@ -1,4 +1,4 @@
-import { Intensity } from '../interfaces/workoutBody.interface';
+import { Intensity } from '../interfaces/intensity.enum';
 
 const workoutNameLabel = 'name';
 const durationLabel = 'duration';

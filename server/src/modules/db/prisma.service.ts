@@ -5,9 +5,13 @@ import { PrismaClient } from '@prisma/client';
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   private readonly logger = new Logger(PrismaService.name);
+  private isTesting: boolean;
 
   constructor(private config: ConfigService) {
-    super();
+    const isTesting = config.get('NODE_ENV') === 'test';
+    const url = isTesting ? config.get('TEST_DATABASE_URL') : config.get('DATABASE_URL');
+    super({ datasources: { db: { url } } });
+    this.isTesting = isTesting;
   }
 
   async onModuleInit() {
@@ -22,9 +26,14 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async cleanDatabase() {
-    if (this.config.get('NODE_ENV') !== 'test') {
+    if (!this.isTesting) {
       return;
     }
-    await this.user.deleteMany();
+
+    try {
+      if ((await this.exercise.count()) !== 0) await this.exercise.deleteMany();
+      if ((await this.workout.count()) !== 0) await this.workout.deleteMany();
+      await this.user.deleteMany();
+    } catch (e) {}
   }
 }

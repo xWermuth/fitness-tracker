@@ -41,22 +41,26 @@ export class AuthService {
     return tokens;
   }
 
-  async signin(dto: AuthDto): Promise<Tokens> {
+  async signin(dto: AuthDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
     });
 
-    if (!user) throw new ForbiddenException('Access Denied');
+    if (!user) {
+      throw new ForbiddenException('Cannot find user: ' + dto.email);
+    }
 
     const passwordMatches = await verify(user.hash, dto.password);
-    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+    if (!passwordMatches) throw new ForbiddenException('Passwords does not match');
 
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
 
-    return tokens;
+    delete user.hash;
+    delete user.hashedRt;
+    return { tokens, user };
   }
 
   async logout(userId: number): Promise<boolean> {
@@ -114,7 +118,7 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('ACCESS_TOKEN_SECRET'),
-        expiresIn: '15m',
+        expiresIn: '1m',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),

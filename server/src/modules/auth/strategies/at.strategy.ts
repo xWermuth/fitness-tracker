@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from 'src/types/jwt.types';
-import { Request } from 'express';
-import { AUTH_CONSTANTS } from '../constants.auth';
 import { Tokens } from 'src/types/token.types';
+import { AUTH_CONSTANTS } from '../constants.auth';
+import { Request } from 'express';
 
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -13,8 +13,8 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          const data:Tokens = request?.cookies[AUTH_CONSTANTS.COOKIE_KEY];
-          
+          const data: Tokens = request?.cookies[AUTH_CONSTANTS.AUTH_COOKIE];
+
           if (!data) {
             return null;
           }

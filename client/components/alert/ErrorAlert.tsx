@@ -2,12 +2,12 @@ import React from 'react';
 import mc from '../../utils/mc.utils';
 
 interface ErrorAlertProps {
-  msg: string;
+  msg: string | undefined;
   className?: string;
 }
 
 const ErrorAlert: React.FC<ErrorAlertProps> = ({ msg, className }) => {
-  return (
+  return msg ? (
     <div
       className={mc('flex items-center justify-center text-center text-red-500 text-sm font-bold px-4 py-3', className)}
       role="alert"
@@ -17,6 +17,8 @@ const ErrorAlert: React.FC<ErrorAlertProps> = ({ msg, className }) => {
       </svg>
       <p>{msg}</p>
     </div>
+  ) : (
+    <></>
   );
 };
 

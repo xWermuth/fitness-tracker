@@ -59,7 +59,7 @@ const Signup: React.FC = () => {
           <FormAction loading={loading} handleSubmit={handleSubmit} text="Signup" />
         </div>
       </form>
-      {err && <ErrorAlert msg={err} className="w-full mt-5" />}
+      <ErrorAlert msg={err} className="w-full mt-5" />
     </div>
   );
 };

@@ -24,13 +24,14 @@ model Exercise {
 }
 
 model Workout {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(255)
-  duration  Int
-  intensity Int
-  userId    Int
-  user      User       @relation(fields: [userId], references: [id])
-  exercise  Exercise[]
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(255)
+  duration    Int
+  intensity   String     @db.VarChar(255)
+  userId      Int
+  completedAt DateTime
+  user        User       @relation(fields: [userId], references: [id])
+  exercise    Exercise[]
 }
 
 model Profile {

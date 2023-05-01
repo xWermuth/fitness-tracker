@@ -39,10 +39,7 @@ const index: React.FC = () => {
           push(`${paths.PROFILE}${userName}`);
         })
         .catch((e) => setError(e.message))
-        .finally(() => {
-          setLoading(false);
-        });
-      // .finally(() => setLoading(false));
+        .finally(() => setLoading(false));
     },
     [form, userName],
   );

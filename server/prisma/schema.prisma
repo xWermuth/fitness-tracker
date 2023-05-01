@@ -17,6 +17,7 @@ model Exercise {
   name      String   @unique @db.VarChar(255)
   reps      Int
   sets      Int
+  tud       Int // Time under tension
   weight    Int? //Default in kg
   workoutId Int
   workout   Workout  @relation(fields: [workoutId], references: [id])
@@ -26,7 +27,7 @@ model Workout {
   id        Int        @id @default(autoincrement())
   name      String     @db.VarChar(255)
   duration  Int
-  intensity String     @db.VarChar(255)
+  intensity Int
   userId    Int
   user      User       @relation(fields: [userId], references: [id])
   exercise  Exercise[]

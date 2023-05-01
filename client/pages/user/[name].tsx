@@ -1,9 +1,7 @@
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { UserRes } from '../../api/user';
 import { getWorkout } from '../../api/workout';
-import Logo from '../../components/logo/Logo';
 import UserNav from '../../components/nav/UserNav';
 import { Workout } from '../../interfaces/workout.interface';
 import { getUserInfo } from '../../store/features/user/user.selectors';

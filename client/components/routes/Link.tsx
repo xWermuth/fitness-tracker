@@ -7,12 +7,8 @@ interface Props extends LinkProps {
   children?: string;
 }
 
-const Link: React.FC<Props> = ({ className, children, ...props }) => {
-  return (
-    <NLink {...props}>
-      <a className={className}>{children}</a>
-    </NLink>
-  );
+const Link: React.FC<Props> = ({ children, ...props }) => {
+  return <NLink {...props}>{children}</NLink>;
 };
 
 export default Link;

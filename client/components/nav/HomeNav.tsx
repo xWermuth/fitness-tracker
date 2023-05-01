@@ -22,7 +22,8 @@ const HomeNav: React.FC<HomeNavProps> = ({}) => {
       <ul className="h-full w-1/2 flex justify-end items-center space-x-4">
         {isAuthenticated ? (
           <>
-            <NavBtn name="My profile" to={`${paths.PROFILE}${user?.name}`} className="bg-purple-600 px-4 py-2 " />
+            <NavBtn name="Create Workout" to={`${paths.WORKOUT}`} className="bg-green-600 px-4 py-2 " />
+            <NavBtn name="My Profile" to={`${paths.PROFILE}${user?.name}`} className="bg-purple-600 px-4 py-2 " />
           </>
         ) : (
           <>

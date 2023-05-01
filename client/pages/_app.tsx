@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { routes } from '../config';
 import mc from '../utils/mc.utils';
 import { wrapper } from '../store/store';
+import UserProvider from '../components/provider/UserProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(pageProps);
@@ -15,9 +16,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className={mc('relative w-screen h-screen bg-main-dark text-white', padding)}>
       <Provider store={store}>
-        <ConnectedRouter>
-          <Component {...pageProps} />
-        </ConnectedRouter>
+        <UserProvider>
+          <ConnectedRouter>
+            <Component {...pageProps} />
+          </ConnectedRouter>
+        </UserProvider>
       </Provider>
     </div>
   );

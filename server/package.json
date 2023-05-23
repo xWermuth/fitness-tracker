@@ -5,6 +5,9 @@
   "author": "Alexander Majgaard Wermuth",
   "private": true,
   "license": "MIT",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "start": "nest start",
     "start:dev": "NODE_ENV=development nest start --watch",
@@ -15,7 +18,7 @@
     "migrate:prod": "npx prisma migrate dev --name",
     "prebuild": "rimraf dist",
     "migrate:reset": "npx prisma migrate reset",
-    "docker:dev": "npm run migrate:dev docker && npm run start:dev",
+    "docker:dev": "npm run migrate:dev docker && npx prisma db seed && npm run start:dev",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:debug": "nest start --debug --watch",

@@ -12,7 +12,7 @@ export class WorkoutController {
 
   @Post()
   public async create(@GetCurrentUserId() userId: number, @Body() workoutDto: WorkoutReqDto) {
-    return await this.workoutService.create({ ...workoutDto, userId });
+    return await this.workoutService.create({ ...workoutDto, userId, completedAt: new Date() });
   }
 
   @Get()

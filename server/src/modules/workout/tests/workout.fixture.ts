@@ -6,4 +6,5 @@ export const WorkoutFixture: WorkoutDto = {
   duration: 80,
   intensity: Intensity.High,
   userId: 1,
+  completedAt: new Date(),
 };

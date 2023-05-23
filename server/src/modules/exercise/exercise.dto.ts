@@ -17,6 +17,10 @@ export class ExerciseDto {
   @IsInt()
   workoutId: number;
 
+  @IsNotEmpty()
+  @IsInt()
+  tud: number;
+
   @IsInt()
   weight: number; // Default in kg
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
@@ -75,13 +75,17 @@ function ColorlibStepIcon(props: StepIconProps) {
   );
 }
 
-const steps = ['Create Workout', 'Add Exercise', 'Save Workout'];
+const steps = ['Start Workout', 'Add Exercise', 'Save Workout'];
 
-const CustomizedSteppers: React.FC = () => {
+interface Props {
+  activeStep: number;
+}
+
+const CustomStepper: React.FC<Props> = ({ activeStep }) => {
   return (
     <Stack sx={{ width: '100%', color: 'white' }} spacing={4}>
-      <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
-        {steps.map((label) => (
+      <Stepper activeStep={activeStep} alternativeLabel connector={<ColorlibConnector />}>
+        {steps.map((label, index) => (
           <Step key={label} className="text-white">
             <ColorlibStepLabel StepIconComponent={ColorlibStepIcon}>{label}</ColorlibStepLabel>
           </Step>
@@ -91,4 +95,4 @@ const CustomizedSteppers: React.FC = () => {
   );
 };
 
-export default CustomizedSteppers;
+export default CustomStepper;

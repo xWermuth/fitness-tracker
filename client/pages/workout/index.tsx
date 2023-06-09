@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { getUserName } from '../../store/features/user/user.selectors';
 import Select from 'react-select';
 import { Intensity } from '../../interfaces/intensity.enum';
+import { Stepper } from '@mui/material';
+import CustomizedSteppers from './workoutstepper';
 
 const fields = WorkoutFields;
 
@@ -50,7 +52,11 @@ const index: React.FC = () => {
     <div className="w-full h-full">
       <BaseNav />
 
-      <form className="max-w-md mx-auto space-y-8 pt-10 text-black" onSubmit={handleSubmit}>
+      <CustomizedSteppers />
+
+      {/* <Stepper></Stepper> */}
+
+      {/* <form className="max-w-md mx-auto space-y-8 pt-10 text-black" onSubmit={handleSubmit}>
         {fields.map((field) => {
           return (
             <AuthInput {...{ ...field, key: field.id, handleChange, value: form[field.id as keyof WorkoutBodyInterface] }} />
@@ -62,15 +68,19 @@ const index: React.FC = () => {
             borderRadius: 0,
             colors: {
               ...theme.colors,
-              primary25: 'hotpink',
-              primary: 'black',
+              primary25: '#d8b4fe',
+              primary: '#A755F7',
             },
           })}
           styles={{
+            option: (baseStyles, state) => ({
+              ...baseStyles,
+              // outline: state.isSelected ? '#A755F7' : '',
+            }),
             control: (baseStyles, state) => ({
               ...baseStyles,
               borderRadius: '0.375rem',
-              outline: state.isFocused ? '#9333EA' : '',
+              outlineColor: state.isFocused ? 'white' : '',
               paddingTop: '0.2rem',
               paddingBottom: '0.2rem',
               paddingLeft: '0.1rem',
@@ -90,7 +100,7 @@ const index: React.FC = () => {
         />
 
         <FormAction loading={false} handleSubmit={handleSubmit} text="Submit" />
-      </form>
+      </form> */}
       <ErrorAlert msg={err} />
     </div>
   );

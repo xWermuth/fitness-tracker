@@ -3,13 +3,18 @@ import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
+import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+
+const ColorlibStepLabel = styled(StepLabel)(() => ({
+  [`& .${stepLabelClasses.label}`]: {
+    color: '#fff',
+  },
+}));
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -70,15 +75,15 @@ function ColorlibStepIcon(props: StepIconProps) {
   );
 }
 
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+const steps = ['Create Workout', 'Add Exercise', 'Save Workout'];
 
 const CustomizedSteppers: React.FC = () => {
   return (
-    <Stack sx={{ width: '100%' }} spacing={4}>
+    <Stack sx={{ width: '100%', color: 'white' }} spacing={4}>
       <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
         {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+          <Step key={label} className="text-white">
+            <ColorlibStepLabel StepIconComponent={ColorlibStepIcon}>{label}</ColorlibStepLabel>
           </Step>
         ))}
       </Stepper>

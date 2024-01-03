@@ -1,5 +1,11 @@
 # Fitness tracker
 
+## Requirements
+
+- Install docker
+
+- Install node.js
+
 ## Motivation
 
 ## Setup
